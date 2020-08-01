@@ -5,6 +5,8 @@
     "build": "webpack"
   },
   "dependencies": {
-    "yamljs" : "*"
+    "yamljs" : "*",
+    "webpack": "*",
+    "webpack-cli": "*"
   }
 }
