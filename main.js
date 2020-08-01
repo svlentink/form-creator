@@ -10,18 +10,16 @@ import YAML from 'yamljs';
     if (callback) callback(glob.data)
   }
   function viewinput(inp) {
-  	let q = document.querySelector('#questions'),
-  	    o = document.querySelector('#output')
-  	let msg = 'FIXME not implemented yet, pleas see window.data'
   	q.value = msg
-  	glob.customFunc(inp,q,o)
+  	glob.customFunc(inp)
   }
   document.querySelector('#loadbtn').addEventListener('click',() => loadinput(viewinput))
   
-  
+/*
   let not_used_datatypes = {
   	'form' : [ 'string','number','integer','boolean','null','enum','object','array']
   }
+*/
   let type_to_form_types = {
   	'boolean' : 'boolean',
   	'null' : 'null', //not sure what to do with this
@@ -32,6 +30,7 @@ import YAML from 'yamljs';
   	'date' : 'data',
   	'string' : 'string'
   }
+/*
   let not_used_formdef =   {"definitions": {
       "address": {
         "type": "object",
@@ -52,6 +51,7 @@ import YAML from 'yamljs';
           "state"
         ]
       }}}
+*/
   
   function get_type(inp) {
   	let t = typeof inp
@@ -75,11 +75,11 @@ import YAML from 'yamljs';
   	throw 'unknown type ' + t
   }
   
-  
-  function convert_to_form_elem(inp, title = 'title'){
+  function convert_to_form_elem(inp, title = 'root'){
   	//let results = []
   	let t = get_type(inp)
   	let ft = type_to_form_types[t]
+  	
   	let result = {
   		'title': title,
   		'description': 'Example value: ' + inp.toString().split('\n')[0],
@@ -93,10 +93,16 @@ import YAML from 'yamljs';
   		return result
   	}
   	if (t === 'object'){
+  	  let q = "Are the keys for object '" + title + "' fixed? (" + Object.keys(inp) + ")" 
+  	  let a = window.confirm(q)
   		result.properties = []
   		for (const [key, value] of Object.entries(inp)) {
   		  let prop = convert_to_form_elem(value, key)
   		  result.properties.push(prop)
+  		  if (a) {
+  		    result.additionalProperties = prop
+  		    return result
+  		  }
   	  }
   	}
   	if (t === 'array'){
@@ -107,15 +113,12 @@ import YAML from 'yamljs';
   	}
   	return result
   }
-  
-  window.customFunc = function (inp,q,o) {
-  	let schema = convert_to_form_elem(inp)
-  	//let str = JSON.stringify(schema)
-  	console.log(schema)
-  	//console.log(str)
+
+  function render_form(schema, to_render_in_id = 'preview', callback) {
+    let p = document.querySelector('#' + to_render_in_id)
   	const Form = JSONSchemaForm.default
-  	
-  	q.innerHTML = ''
+
+    p.innerHTML = ''
   /*
     ReactDOM.render((
   	  <Form schema={schema} />
@@ -123,7 +126,14 @@ import YAML from 'yamljs';
   */
     ReactDOM.render( /*#__PURE__*/React.createElement(Form, {
       schema: schema
-    }), q)
+    }), p,callback)
+  } 
+  
+  window.customFunc = function (inp) {
+    let o = document.querySelector('#output'),
+  	    schema = convert_to_form_elem(inp)
+  	render_form(schema)
+  	o.value = schema
   }
 
 
