@@ -10,7 +10,11 @@ import YAML from 'yamljs';
     if (callback) callback(glob.data)
   }
   function viewinput(inp) {
-  	console.log('FIXME not implemented yet, pleas see window.data')
+  	let q = document.querySelector('#questions'),
+  	    o = document.querySelector('#output')
+  	let msg = 'FIXME not implemented yet, pleas see window.data'
+  	q.value = msg
+  	glob.customFunc(inp,q,o)
   }
   document.querySelector('#loadbtn').addEventListener('click',() => loadinput(viewinput))
 
