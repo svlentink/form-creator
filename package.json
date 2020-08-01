@@ -1,0 +1,10 @@
+{
+  "name": "form-creator",
+  "version": "0.0.1",
+  "scripts": {
+    "build": "webpack"
+  },
+  "dependencies": {
+    "yamljs" : "*"
+  }
+}

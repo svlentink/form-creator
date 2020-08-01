@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>YAML Form creator</title>
+<style>
+  body {
+  	min-width: 600px;
+  	max-width: 1200px;
+  }
+	textarea {
+		width:100%;
+		height:30%;
+		display:block;
+	}
+	section {
+		margin: 30px;
+	}
+</style>
+</head>
+<body>
+<a href='https://github.com/svlentink/form-creator'>Github</a>
+<h1>Form creator</h1>
+Insert example data set as YAML/JSON here:
+<textarea id='input'></textarea>
+<button id='loadbtn'>Load input</button>
+<section id='questions'>Please load training data first . . .</section>
+Output:
+<textarea id='output' disabled></textarea>
+This output can be used with
+<a href='https://github.com/rjsf-team/react-jsonschema-form'>this library</a>,
+which is available at a
+<a href='https://react-jsonschema-form.readthedocs.io/en/latest/#as-a-script-served-from-a-cdn'>CDN</a>.
+
+<!--
+We picked
+https://www.npmjs.com/package/react-jsonschema-form
+over
+https://www.npmjs.com/package/jsonform
+for its adoption rate.
+-->
+<script src="https://unpkg.com/@rjsf/core/dist/react-jsonschema-form.js"></script>
+</body>
+</html>
