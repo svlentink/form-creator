@@ -10,7 +10,6 @@ import YAML from 'yamljs';
     if (callback) callback(glob.data)
   }
   function viewinput(inp) {
-  	q.value = msg
   	glob.customFunc(inp)
   }
   document.querySelector('#loadbtn').addEventListener('click',() => loadinput(viewinput))
