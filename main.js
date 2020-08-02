@@ -125,11 +125,10 @@ import YAML from 'yamljs';
   		    prop = convert_to_form_elem(value, key)
   		    if (a1) sameobj = prop
   		  }
-  		  result.properties.push(prop)
   		  if (a2) {
   		    result.additionalProperties = prop
   		    return result
-  		  }
+  		  } else result.properties.push(prop)
   	  }
   	}
   	if (t === 'array'){
