@@ -85,7 +85,9 @@ import YAML from 'yamljs';
   		'description': 'Example value: ' + inp.toString().split('\n')[0],
   		'type' : ft
   	}
-  	if (['integer', 'string'].includes(t)) result.enum = [inp]
+  	if (['integer', 'string'].includes(t) &&
+  	    window.confirm("Is field '" + title + "' an enum?"))
+  	    result.enum = [inp]
   	if (t === 'date'){
   		result.type = 'string'
   		//result["$ref"] = "#/definitions/date"
