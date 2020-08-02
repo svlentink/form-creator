@@ -93,14 +93,40 @@ import YAML from 'yamljs';
   		result.format = 'date'
   		return result
   	}
-  	if (t === 'object'){
-  	  let q = "Are the keys for object '" + title + "' fixed? (" + Object.keys(inp) + ")" 
-  	  let a = window.confirm(q)
+    if (t === 'object'){
+      result.description = 'Example value: ' + JSON.stringify(inp).substr(0,30)
+      let keys = Object.keys(inp),
+  	      q1 = "Are all the elements of object '" +
+  	           title + "' have the same (nested) data structure? (" +
+  	           keys + ")",
+  	      a1 = true
+  	  let previous_type
+  	  for (let k in inp) {
+  	    let t = typeof inp[k]
+  	    if (!previous_type) previous_type = t
+  	    if (previous_type !== t) a1 = false
+  	  }
+  	  if (Object.keys(inp).length === 1) a1 = true
+  	  else if (a1) a1 = window.confirm(q1)
+  	  let q2 = "Are the keys for object '" +
+  	           title + "' expendable? (" +
+  	           keys + ")"
+  	  let a2
+  	  if (q1) a2 = window.confirm(q2)
+  	  else a2 = false
+  	  
   		result.properties = []
+  		let sameobj
+  		
   		for (const [key, value] of Object.entries(inp)) {
-  		  let prop = convert_to_form_elem(value, key)
+  		  let prop
+  		  if (a1 && sameobj) prop = sameobj
+  		  else {
+  		    prop = convert_to_form_elem(value, key)
+  		    if (a1) sameobj = prop
+  		  }
   		  result.properties.push(prop)
-  		  if (a) {
+  		  if (a2) {
   		    result.additionalProperties = prop
   		    return result
   		  }
@@ -108,7 +134,7 @@ import YAML from 'yamljs';
   	}
   	if (t === 'array'){
   		let arrayitem
-  		if (inp.length) arrayitem = convert_to_form_elem(inp[0])
+  		if (inp.length) arrayitem = convert_to_form_elem(inp[0],title)
   		else arrayitem = 'examplestring'
   		result.items = arrayitem
   	}
@@ -134,9 +160,8 @@ import YAML from 'yamljs';
     let o = document.querySelector('#output'),
   	    schema = convert_to_form_elem(inp)
   	render_form(schema)
-  	o.value = schema
+  	o.value = JSON.stringify(schema,null,2)
   }
-
 
 
 }(typeof window !== 'undefined' ? window : global))
