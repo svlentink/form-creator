@@ -4,3 +4,7 @@
 - Data types [JS](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures)
 - Data types [form](https://react-jsonschema-form.readthedocs.io/en/latest/usage/single/)
 
+## FIXME list
+
+- currently a list of named data objects isn't possible
+
