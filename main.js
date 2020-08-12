@@ -120,7 +120,10 @@ import YAML from 'yamljs';
   		
   		for (const [key, value] of Object.entries(inp)) {
   		  let prop
-  		  if (a1 && sameobj) prop = sameobj
+  		  if (a1 && sameobj) {
+	            prop = sameobj
+		    prop.title = key
+	          }
   		  else {
   		    prop = convert_to_form_elem(value, key)
   		    if (a1) sameobj = prop
