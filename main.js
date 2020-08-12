@@ -115,13 +115,13 @@ import YAML from 'yamljs';
   	  if (q1) a2 = window.confirm(q2)
   	  else a2 = false
   	  
-  		result.properties = []
+  		result.properties = {}
   		let sameobj
   		
   		for (const [key, value] of Object.entries(inp)) {
   		  let prop
   		  if (a1 && sameobj) {
-	            prop = sameobj
+	            prop = {...sameobj} // shallow copy, enabling the editing of title
 		    prop.title = key
 	          }
   		  else {
@@ -131,7 +131,7 @@ import YAML from 'yamljs';
   		  if (a2) {
   		    result.additionalProperties = prop
   		    return result
-  		  } else result.properties.push(prop)
+  		  } else result.properties[key] = prop
   	  }
   	}
   	if (t === 'array'){
